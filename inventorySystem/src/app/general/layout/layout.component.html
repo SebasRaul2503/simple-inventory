@@ -1,0 +1,7 @@
+<div class="d-flex">
+    <app-sidebar></app-sidebar>
+    <div class="content flex-grow-1" [class.content-expanded]="!isSidebarClosed" [class.content-collapsed]="isSidebarClosed">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  

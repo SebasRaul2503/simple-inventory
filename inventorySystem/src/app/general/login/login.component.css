@@ -1,0 +1,58 @@
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    margin: auto;
+    justify-content: center;
+    height: 100vh;
+}
+
+.email-container,
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 10px;
+    pointer-events: none;
+}
+
+.emailInput, .passwordInput {
+    width: 100%;
+    align-self: center;
+    padding-left: 30px;
+}
+
+#loginButton {
+    margin-top: 20px;
+}
+
+.logo {
+    max-height: 150px;
+    align-self: center;
+    transition: transform 0.2;
+}
+
+.logo:hover {
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.mainTitle {
+    align-self: center;
+}
+
+body {
+    font-family: sans-serif;
+}

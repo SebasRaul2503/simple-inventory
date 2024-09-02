@@ -1,0 +1,17 @@
+<body>
+    <div class="loginForm">
+        <img class="logo" src="logo.png" alt="main logo">
+        <h4 class="mainTitle">Inventory System</h4>
+        <label for="email">Email:</label>
+        <div class="email-container">
+            <i class="input-icon fa fa-envelope"></i>
+            <input id="email" class="emailInput" type="email" required placeholder="Your email">
+        </div>
+        <label for="password">Password:</label>
+        <div class="password-container">
+            <i class="input-icon fa fa-lock"></i>
+            <input id="password" class="passwordInput" type="password" required placeholder="Your password">
+        </div>
+        <button class="btn btn-primary" id="loginButton" (click)="login()">Log In</button>
+    </div>
+</body>
