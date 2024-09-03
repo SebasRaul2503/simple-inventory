@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SidebarService } from '../../services/extra/sidebar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,7 +14,7 @@ import { SidebarService } from '../../services/extra/sidebar.service';
 export class SidebarComponent {
   isSidebarClosed = false;
 
-  constructor(private sidebarService: SidebarService) {
+  constructor(private sidebarService: SidebarService, private router: Router) {
     this.sidebarService.isSidebarClosed$.subscribe(
       (isClosed) => (this.isSidebarClosed = isClosed)
     );
@@ -22,4 +23,30 @@ export class SidebarComponent {
   toggleSidebar() {
     this.sidebarService.toggleSidebar();
   }
+
+  //routes methods
+  goInventory(){
+    this.router.navigate(['inventory']);
+  }
+
+  goDashboard(){
+    this.router.navigate(['dashboard']);
+  }
+
+  goReports(){
+    this.router.navigate(['reports']);
+  }
+
+  goUsers(){
+    this.router.navigate(['users']);
+  }
+
+  goConfig(){
+    this.router.navigate(['configuration']);
+  }
+
+  goHistory(){
+    this.router.navigate(['history']);
+  }
+
 }

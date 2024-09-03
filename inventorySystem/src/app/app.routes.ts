@@ -11,26 +11,27 @@ import { HistoryComponent } from './admin/history/history.component';
 import { DashboardComponent } from './normalUser/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './extras/page-not-found/page-not-found.component';
 import { LoginComponent } from './general/login/login.component';
+import { routesGuard } from './guards/routes.guard';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent, title: 'Login' },
+  { path: "login", component: LoginComponent, title: "Login" },
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, title: 'Dashboard' },
-      { path: 'inventory', component: InventoryListComponent, title: 'Inventory' },
-      { path: 'inventory/add', component: InventoryFormComponent, title: 'Add Item' },
-      { path: 'inventory/edit/:id', component: InventoryFormComponent, title: 'Edit Item' },
-      { path: 'inventory/detail/:id', component: InventoryDetailComponent, title: 'Item Detail' },
-      { path: 'reports', component: ReportsComponent, title: 'Reports' },
-      { path: 'users', component: UsersListComponent, title: 'Users' },
-      { path: 'users/add', component: UserFormComponent, title: 'Add User' },
-      { path: 'users/edit/:id', component: UserFormComponent, title: 'Edit User' },
-      { path: 'configuration', component: ConfigComponent, title: 'Configurations' },
-      { path: 'history', component: HistoryComponent, title: 'History' }
+      { path: '', redirectTo: 'dashboard', pathMatch:'full'},
+      { path: "dashboard", component: DashboardComponent, title: "Dashboard", canActivate: [routesGuard] },
+      { path: "inventory", component: InventoryListComponent, title: "Inventory", canActivate: [routesGuard] },
+      { path: "inventory/add", component: InventoryFormComponent, title: "Add Item", canActivate: [routesGuard] },
+      { path: "inventory/edit/:id", component: InventoryFormComponent, title: "Edit Item", canActivate: [routesGuard] },
+      { path: "inventory/detail/:id", component: InventoryDetailComponent, title: "Item Detail", canActivate: [routesGuard] },
+      { path: "reports", component: ReportsComponent, title: "Reports", canActivate: [routesGuard] },
+      { path: "users", component: UsersListComponent, title: "Users", canActivate: [routesGuard] },
+      { path: "users/add", component: UserFormComponent, title: "Add User", canActivate: [routesGuard] },
+      { path: "users/edit/:id", component: UserFormComponent, title: "Edit User", canActivate: [routesGuard] },
+      { path: "configuration", component: ConfigComponent, title: "Configurations", canActivate: [routesGuard] },
+      { path: "history", component: HistoryComponent, title: "History", canActivate: [routesGuard] }
     ]
   },
-  { path: '**', component: PageNotFoundComponent, title: '404' }
+  { path: '**', redirectTo: 'login', pathMatch:'full' }
 ];

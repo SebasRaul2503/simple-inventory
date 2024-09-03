@@ -7,7 +7,7 @@
     height: 100vh;
 }
 
-.email-container,
+.username-container,
 .password-container {
     position: relative;
     display: flex;
@@ -21,7 +21,7 @@
     pointer-events: none;
 }
 
-.emailInput, .passwordInput {
+.usernameInput, .passwordInput {
     width: 100%;
     align-self: center;
     padding-left: 30px;

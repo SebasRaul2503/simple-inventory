@@ -6,22 +6,22 @@
     <i class="fas fa-box-open"></i> <span *ngIf="!isSidebarClosed">Inventory</span>
   </div>
   <div class="list-group list-group-flush">
-    <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+    <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" (click)="goDashboard()">
       <i class="fas fa-tachometer-alt fa-fw"></i><span *ngIf="!isSidebarClosed">Dashboard</span>
     </a>
-    <a class="list-group-item list-group-item-action py-2 ripple">
+    <a class="list-group-item list-group-item-action py-2 ripple" (click)="goInventory()">
       <i class="fas fa-boxes fa-fw"></i><span *ngIf="!isSidebarClosed">Inventory</span>
     </a>
-    <a class="list-group-item list-group-item-action py-2 ripple">
+    <a class="list-group-item list-group-item-action py-2 ripple" (click)="goReports()">
       <i class="fas fa-file-alt fa-fw"></i><span *ngIf="!isSidebarClosed">Reports</span>
     </a>
-    <a class="list-group-item list-group-item-action py-2 ripple">
+    <a class="list-group-item list-group-item-action py-2 ripple" (click)="goUsers()">
       <i class="fas fa-users fa-fw"></i><span *ngIf="!isSidebarClosed">Users</span>
     </a>
-    <a class="list-group-item list-group-item-action py-2 ripple">
+    <a class="list-group-item list-group-item-action py-2 ripple" (click)="goConfig()">
       <i class="fas fa-cogs fa-fw"></i><span *ngIf="!isSidebarClosed">Configurations</span>
     </a>
-    <a class="list-group-item list-group-item-action py-2 ripple">
+    <a class="list-group-item list-group-item-action py-2 ripple" (click)="goHistory()">
       <i class="fas fa-history fa-fw"></i><span *ngIf="!isSidebarClosed">History</span>
     </a>
   </div>
