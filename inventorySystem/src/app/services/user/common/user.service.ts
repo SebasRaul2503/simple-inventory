@@ -13,7 +13,7 @@ export class UserService {
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   loginUser(credentials: { USERNAME: string, USERPASSWORD: string }):Observable<any>{
-    return this.http.post(`${this.baseUrl}/userLogin`, credentials);
+    return this.http.post(`${this.baseUrl}/userLogin`, credentials);// not privileges needed
   }
 
 }

@@ -31,19 +31,20 @@ GO --executed
 
 
 
-CREATE PROCEDURE sp_GetAllUsers --gets all users on database (admin privilege needed)
+CREATE PROCEDURE sp_GetAllUsers -- returns all users on database (admin privileges needed)
 AS
-BEGIN 
-	SELECT 
+BEGIN
+    SELECT 
         U.USERID,
         U.USERNAME,
+        UR.ROLEID,
         UR.ROLENAME
     FROM 
         "USER" U
     JOIN 
         USERPRIVILEGES UP ON U.USERID = UP.USERID
     JOIN 
-        USERROLE UR ON UP.ROLEID = UR.ROLEID
+        USERROLE UR ON UP.ROLEID = UR.ROLEID;
 END
 GO -- executed
 
@@ -57,35 +58,99 @@ AS
 BEGIN
     DECLARE @newUserID BIGINT;
     BEGIN TRY
-        -- Iniciar la transacción
+
         BEGIN TRANSACTION;
 
-        -- Insertar en la tabla USER
         INSERT INTO "USER" (USERNAME, USERPASSWORD)
         VALUES (@userName, @userPassword);
 
-        -- Obtener el USERID del usuario recién insertado
         SET @newUserID = SCOPE_IDENTITY();
 
-        -- Insertar en la tabla USERPRIVILEGES
         INSERT INTO USERPRIVILEGES (USERID, ROLEID)
         VALUES (@newUserID, @roleID);
 
-        -- Confirmar la transacción
         COMMIT TRANSACTION;
 
-        -- Devolver el USERID del nuevo usuario
         SELECT @newUserID AS NewUserID;
     END TRY
     BEGIN CATCH
-        -- Si ocurre un error, revertir la transacción
+
         ROLLBACK TRANSACTION;
 
-        -- Retornar el error
+        DECLARE @ErrorMessage NVARCHAR(4000);
+        SET @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR(@ErrorMessage, 16, 1);
+    END CATCH
+END
+GO -- executed
+
+CREATE PROCEDURE sp_ModifyUser -- Modifies a user on the database
+    @action NVARCHAR(50),           -- 'delete', 'update'
+    @userID BIGINT,
+    @newUserName NVARCHAR(64) = NULL,
+    @newUserPassword NVARCHAR(200) = NULL,
+    @newRoleID INT = NULL
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        IF @action = 'delete' -- in case of delete
+        BEGIN
+
+            DELETE FROM USERPRIVILEGES
+            WHERE USERID = @userID;
+
+            DELETE FROM "USER"
+            WHERE USERID = @userID;
+
+            COMMIT TRANSACTION;
+
+            SELECT 'User deleted successfully' AS Result; -- delete message
+            RETURN;
+        END
+
+        IF @action = 'update' -- in case of update
+        BEGIN
+            UPDATE "USER"
+            SET 
+                USERNAME = ISNULL(@newUserName, USERNAME), 
+                USERPASSWORD = ISNULL(@newUserPassword, USERPASSWORD)
+            WHERE 
+                USERID = @userID;
+
+            IF @newRoleID IS NOT NULL
+            BEGIN
+                UPDATE USERPRIVILEGES
+                SET ROLEID = @newRoleID
+                WHERE USERID = @userID;
+            END
+
+            COMMIT TRANSACTION;
+
+            SELECT 'User updated successfully' AS Result;
+            RETURN;
+        END
+    END TRY
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+
         DECLARE @ErrorMessage NVARCHAR(4000);
         SET @ErrorMessage = ERROR_MESSAGE();
         RAISERROR(@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
--- executed
+
+CREATE PROCEDURE sp_GetAllRoles
+AS
+BEGIN
+    SELECT 
+        ROLEID,
+        ROLENAME
+    FROM 
+        USERROLE;
+END
+GO -- executed
+

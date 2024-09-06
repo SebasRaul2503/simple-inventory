@@ -5,37 +5,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { sql, poolPromise } = require('../../database/connection');
 
-
-// Register a new user on databse
-router.post('/addUser', async(req, res) => {
-    try {
-        const { USERNAME, USERPASSWORD, ROLEID } = req.body;
-
-        const hashedPassword = await bcrypt.hash(USERPASSWORD, 10);
-
-        const pool = await poolPromise;
-
-        const result = await pool.request()
-            .input('userName', sql.NVarChar, USERNAME)
-            .input('userPassword', sql.NVarChar, hashedPassword)
-            .input('roleID', sql.Int, ROLEID)
-            .execute('sp_AddUserI');
-
-        const userid = result.recordset[0];
-        if (userid && userid.NewUserID){
-            res.status(200).json(
-                {
-                    message: 'User Registered! :D',
-                    newuserid: userid.NewUserID
-                }
-        )
-        }
-    } catch (error) {
-        res.status(500).send('Internal Server Error')
-    }
-});
-
-//For user login
+//For user login (obviously doesn't need admin privileges) - no headers sent
 router.post('/userLogin', async(req, res) => {
     try {
         const { USERNAME, USERPASSWORD } = req.body;
@@ -56,7 +26,6 @@ router.post('/userLogin', async(req, res) => {
                     {
                         id: user.USERID,
                         userName: user.USERNAME,
-                        userPassword: user.PASSWORD,
                         roleName: user.ROLENAME,
                         canAddProduct: user.CANADDPRODUCT,
                         canEditProduct: user.CANEDITPRODUCT,

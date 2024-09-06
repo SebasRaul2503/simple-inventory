@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
-import { SidebarService } from '../../services/extra/sidebar.service';
+import { SidebarService } from '../../../services/extra/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-layout',

@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SidebarService } from '../../services/extra/sidebar.service';
+import { SidebarService } from '../../../services/extra/sidebar/sidebar.service';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { TokenService } from '../../../services/token/token.service';
+import { PermissionsService } from '../../../services/extra/permissions/permissions.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,11 +16,20 @@ import { Router } from '@angular/router';
 
 export class SidebarComponent {
   isSidebarClosed = false;
+  permissions: any;
 
-  constructor(private sidebarService: SidebarService, private router: Router) {
+  constructor(private sidebarService: SidebarService,
+    private router: Router,
+    private cookieService: CookieService,
+    private permissionsService: PermissionsService
+  ) {
     this.sidebarService.isSidebarClosed$.subscribe(
       (isClosed) => (this.isSidebarClosed = isClosed)
     );
+  }
+
+  ngOnInit(): void {
+    this.permissions = this.permissionsService.getPermissions();
   }
 
   toggleSidebar() {
@@ -47,6 +59,11 @@ export class SidebarComponent {
 
   goHistory(){
     this.router.navigate(['history']);
+  }
+
+  logout(){
+    this.cookieService.delete('invToken');
+    this.router.navigate(['login']);
   }
 
 }
